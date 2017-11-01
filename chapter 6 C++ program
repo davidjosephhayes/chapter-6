@@ -1,0 +1,184 @@
+// Ch6VBprogram.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <cstdlib>
+#include <iostream>
+#include <string>				//For the string variable
+#include <fstream>				//To allow writing to file
+
+using namespace std;
+
+void validateUserName(string &username);
+void createFile(string &username);
+void writeDataToFile(string &whatever);
+void readDataFromFile(string fileName, string whatever, int &howManyEven, int &howManyOdd);
+void checkEvenDigit(string whatever);
+void checkOddDigit(string whatever);
+void displayResults(int &howmanyEven, int &howmanyOdd);
+
+int main()
+{
+	string username;
+	string whatever;
+	string repeatLoop;
+	string fileName;
+	int counter = 0;
+	int strLength = 0;
+	int howManyEven;
+	int howManyOdd;
+	ofstream outputFile;
+	ifstream inputFile;
+
+	//ASK THE USER FOR THEIR NAME
+	cout << "Please enter your name and press <ENTER>" << endl;
+	getline(cin, username);
+	
+	//CALL THE FUNCTION TO VALIDATE THE USER'S NAME
+	validateUserName(username);
+
+	//CALL THE FUNCTION TO CREATE A TEXT FILE
+	createFile(username);
+	
+	//CALL THE FUCTION TO WRITE THE DATA TO FILE
+	writeDataToFile(whatever);
+	
+	//CLOSE THE OUTPUT FILE
+	outputFile.close();
+
+	//CALL THE FUNCTION TO READ THE DATA FROM THE FILE
+	//AND THE OTHER FUNCTIONS TO PERFORM THE NECESSARY
+	//OPERATIONS ON THE DATA
+	readDataFromFile(fileName, whatever, howManyEven, howManyOdd);
+
+	//CALL THE FUNCTION TO DISPLAY THE RESULTS OF
+	//THE OPERATIONS PERFORMED
+	displayResults(howManyEven, howManyOdd);
+
+	system("PAUSE");
+
+	return EXIT_SUCCESS;
+}
+
+void validateUserName(string &username)
+{
+	//VALIDATE THE USER INPUT A PROPER NAME THAT ONLY CONTAINS LETTERS
+	//OTHERWISE DISPLAY AN ERROR MESSAGE AND ASK THE USER TO TRY AGAIN
+	while (username.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") != -1)
+	{
+		cout << "Enter a name with no numbers, spaces, or special characters" << endl;
+		cin.clear();
+		getline(cin, username);
+	}
+}
+
+void createFile(string &username)
+{
+	string fileName = (username + ".txt");
+	//CREATE A FILE OF THE NAME THE USER INPUT OR APPEND
+	//THE FILE IF IT ALREADY EXISTS
+	ofstream outputFile;
+	outputFile.open(fileName, std::ios_base::app | std::ios_base::out);
+}
+
+void writeDataToFile(string &whatever)
+{
+	const string sentinel = "-1";
+	ofstream outputFile;
+	
+	//CREATE A LOOP THAT ALLOWS THE USER TO ENTER AS MUCH DATA AS THEY
+	//WANT UNTIL THEY ENTER A "-1"
+	do
+	{
+		cout << "Enter anything you want and press <ENTER>" << endl;
+		cout << "To stop entering data, simply type: -1 and press <ENTER>" << endl;
+		getline(cin, whatever);
+		outputFile << whatever << endl;
+	} 
+	while (whatever != sentinel);
+	
+}
+
+void readDataFromFile(string fileName, string whatever, int &howManyEven, int &howManyOdd)
+{
+	ifstream inputFile;
+
+	//OPEN THE FILE THAT WAS CREATED EARLIER
+	inputFile.open(fileName);
+	
+	//DISPLAY AN ERROR IF FILE CANNOT BE OPENED
+	if (inputFile.fail())
+	{
+		cout << "Error opening file" << endl;
+	}
+	//PROCESS THE FILE
+	else 
+	{
+		checkEvenDigit(whatever);
+		checkOddDigit(whatever);
+	}
+}
+
+void checkEvenDigit(string whatever)
+{
+	string evenNumbers;
+	int counter = 0;
+	int inputLength = whatever.length();
+	int howManyEven;
+
+	//THIS FOR LOOP DIVIDES EACH INDEX POSITION BY 2 TO CHECK IF THE
+	//NUMBER THERE IS EVEN. IF IT IS, IT IS ADDED TO THE STRING CALLED
+	// "evenNumbers"
+	for (counter; counter < inputLength; counter++)
+	{
+		if ((whatever[counter]) % 2 == 0)
+		{
+			evenNumbers = evenNumbers + whatever[counter];
+		}
+	}
+	howManyEven = evenNumbers.length();
+
+}
+
+void checkOddDigit(string whatever)
+{
+	string oddNumbers;
+	int counter = 0;
+	int inputLength = whatever.length();
+	int howManyOdd;
+
+	//THIS FOR LOOP DIVIDES EACH INDEX POSITION BY 2 TO CHECK IF THE
+	//NUMBER THERE IS ODD. IF IT IS, IT IS ADDED TO THE STRING CALLED
+	// "oddNumbers"
+	for (counter; counter < inputLength; counter++)
+	{
+		if ((whatever[counter]) % 2 == 1)
+		{
+			oddNumbers = oddNumbers + whatever[counter];
+		}
+	}
+	howManyOdd = oddNumbers.length();
+
+}
+
+void displayResults(int &howManyEven, int &howManyOdd)
+{
+	if (&howManyEven != 0)
+	{
+		cout << "There are " << &howManyEven << " even digits in the text file you created!" << endl;
+	}
+	else
+	{
+		cout << "There are no even digits in the text file you created!" << endl;
+	}
+	if (&howManyEven != 0)
+	{
+		cout << "There are " << &howManyOdd << " odd digits in the text file you created!" << endl;
+	}
+	else
+	{
+		cout << "There are no odd digits in the text file you created!" << endl;
+	}
+
+	cout << "good-bye" << endl;
+}
