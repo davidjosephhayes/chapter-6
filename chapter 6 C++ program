@@ -30,9 +30,9 @@ int main()
 	ofstream outputFile;
 	ifstream inputFile;
 
-	//ASK THE USER FOR THEIR NAME
-	cout << "Please enter your name and press <ENTER>" << endl;
-	getline(cin, username);
+	//ASK THE USER FOR THEIR NAME  - Don't really neeed this, just get from the function
+	// cout << "Please enter your name and press <ENTER>" << endl;
+	// getline(cin, username);
 	
 	//CALL THE FUNCTION TO VALIDATE THE USER'S NAME
 	validateUserName(username);
@@ -62,6 +62,9 @@ int main()
 
 void validateUserName(string &username)
 {
+	
+	username = '';
+	
 	//VALIDATE THE USER INPUT A PROPER NAME THAT ONLY CONTAINS LETTERS
 	//OTHERWISE DISPLAY AN ERROR MESSAGE AND ASK THE USER TO TRY AGAIN
 	while (username.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") != -1)
